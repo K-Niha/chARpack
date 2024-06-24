@@ -352,7 +352,7 @@ public class appSettings : MonoBehaviour
 
         // Set the camera facing direction based on the enabled state
         arCameraManager.requestedFacingDirection = enabled ? CameraFacingDirection.World : CameraFacingDirection.User;
-        //SettingsData.togglePassthrough = enabled;
+        SettingsData.togglePassthrough = enabled;
         updateVisuals();
     }
 
@@ -677,7 +677,7 @@ public class appSettings : MonoBehaviour
         setVisual(PointerHighlightingIndicator, SettingsData.pointerHighlighting);
         setVisual(RightHandMenuIndicator, SettingsData.rightHandMenu);
         setVisual(ColorInterpolationIndicator, SettingsData.interpolateColors);
-        //setVisual(PassthroughIndicator, SettingsData.togglePassthrough);
+        setVisual(PassthroughIndicator, SettingsData.togglePassthrough);
         setTimeFactorVisuals(SettingsData.timeFactors);
         // Connected to server (not local)
         if (LoginData.ip != null && LoginData.ip != "127.0.0.1")

@@ -1225,7 +1225,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 124748820260027915}
         m_TargetAssemblyTypeName: appSettings, Assembly-CSharp
-        m_MethodName: toggleGazeHighlighting
+        m_MethodName: togglePassthrough
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6150,6 +6150,7 @@ MonoBehaviour:
   RKTimeFactorSlider: {fileID: 497928363516594232}
   MPTimeFactorSlider: {fileID: 4576513368095609848}
   LengthUnitLabel: {fileID: 1091772001946865355}
+  arCameraManager: {fileID: 0}
 --- !u!1 &1136666759535862997
 GameObject:
   m_ObjectHideFlags: 0
@@ -8049,7 +8050,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Gaze Highlighting
+  m_text: 'Passthrough
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6a84f857bec7e7345843ae29404c57ce, type: 2}
   m_sharedMaterial: {fileID: 21202819797275496, guid: 6a84f857bec7e7345843ae29404c57ce, type: 2}
@@ -28162,7 +28165,7 @@ MeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fa419ab56051229449e3b813df8f295f, type: 2}
+  - {fileID: 2100000, guid: 929f4e12c37d25a4ba6ddce457e88551, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
