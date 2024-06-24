@@ -12,6 +12,7 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 using chARpackColorPalette;
+using UnityEngine.XR.ARFoundation;
 
 /// <summary>
 /// This class contains the implementation of all functions of the settings menu.
@@ -66,13 +67,17 @@ public class appSettings : MonoBehaviour
     public GameObject NetworkMeasurementIndicator;
     public GameObject ColorInterpolationIndicator;
     public GameObject LicoriceRenderingIndicator;
+    public GameObject PassthroughIndicator;
     // Time factor sliders
     public GameObject EulerTimeFactorSlider;
     public GameObject SVTimeFactorSlider;
     public GameObject RKTimeFactorSlider;
     public GameObject MPTimeFactorSlider;
 
+
     public GameObject LengthUnitLabel;
+
+    [SerializeField] private ARCameraManager arCameraManager; // This is to assign ARCameraManager for Passthrough toggling function
 
     private void Start()
     {
@@ -80,7 +85,7 @@ public class appSettings : MonoBehaviour
         updateVisuals();
         var userBoxes = GameObject.FindGameObjectsWithTag("User Box");
         // Connected to server (not local)
-        if (LoginData.ip!=null && LoginData.ip!="127.0.0.1")
+        if (LoginData.ip != null && LoginData.ip != "127.0.0.1")
         {
             setVisual(UserBoxIndicator, true);
             setVisual(UserRayIndicator, true);
@@ -88,6 +93,14 @@ public class appSettings : MonoBehaviour
         {
             setVisual(UserBoxIndicator, false);
             setVisual(UserRayIndicator, false);
+        }
+
+        {
+            // Find the ARCameraManager component attached to the main camera
+            arCameraManager = Camera.main.GetComponent<ARCameraManager>();
+
+            // Ensure passthrough mode is enabled at the start
+            SetPassthroughMode(true);
         }
     }
 
@@ -248,7 +261,7 @@ public class appSettings : MonoBehaviour
     public void switchLanguage()
     {
         LocaleIdentifier current = LocalizationSettings.SelectedLocale.Identifier;
-        if(current == "en")
+        if (current == "en")
         {
             LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.GetLocale("de");
         }
@@ -276,11 +289,8 @@ public class appSettings : MonoBehaviour
     /// when a user looks at them).
     /// By default, this behaviour is active.
     /// </summary>
-    public void toggleGazeHighlighting()
-    {
-        SettingsData.gazeHighlighting = !SettingsData.gazeHighlighting;
-        updateVisuals();
-    }
+
+
 
     /// <summary>
     /// Toggles pointer/finger highlighting of atoms (atoms are marked with a white outline 
@@ -326,6 +336,26 @@ public class appSettings : MonoBehaviour
         colorSchemeManager.Singleton.setColorPalette((ColorScheme)(Enum.GetValues(typeof(ColorScheme))).GetValue(newIndex));
         updateVisuals();
     }
+
+    private bool isPassthroughEnabled = true;
+    public void togglePassthrough()
+    {
+        // Toggle the state of passthrough mode
+        isPassthroughEnabled = !isPassthroughEnabled;
+        SetPassthroughMode(isPassthroughEnabled);
+    }
+
+    private void SetPassthroughMode(bool enabled)
+    {
+        // Enable or disable the ARCameraManager component based on the provided flag
+        arCameraManager.enabled = enabled;
+
+        // Set the camera facing direction based on the enabled state
+        arCameraManager.requestedFacingDirection = enabled ? CameraFacingDirection.World : CameraFacingDirection.User;
+        //SettingsData.togglePassthrough = enabled;
+        updateVisuals();
+    }
+
     #endregion
 
     #region Integration method
@@ -633,7 +663,7 @@ public class appSettings : MonoBehaviour
         setVisual(ForceFieldIndicator, SettingsData.forceField);
         setVisual(SpatialMeshIndicator, SettingsData.spatialMesh);
         setVisual(ColorInterpolationIndicator, SettingsData.interpolateColors);
-
+       
         if (DebugWindow.Singleton == null)
         {
             setVisual(DebugWindowIndicator, false);
@@ -646,6 +676,8 @@ public class appSettings : MonoBehaviour
         setVisual(GazeHighlightingIndicator, SettingsData.gazeHighlighting);
         setVisual(PointerHighlightingIndicator, SettingsData.pointerHighlighting);
         setVisual(RightHandMenuIndicator, SettingsData.rightHandMenu);
+        setVisual(ColorInterpolationIndicator, SettingsData.interpolateColors);
+        //setVisual(PassthroughIndicator, SettingsData.togglePassthrough);
         setTimeFactorVisuals(SettingsData.timeFactors);
         // Connected to server (not local)
         if (LoginData.ip != null && LoginData.ip != "127.0.0.1")
