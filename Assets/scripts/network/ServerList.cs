@@ -71,6 +71,14 @@ public class ServerList : myScrollObject
         myServer3.ip = IPAddress.Parse("192.168.166.55");
         myServer3.port = LoginData.port;
 
+        var myServer4 = new FindServer.ServerData();
+        myServer4.ip = IPAddress.Parse("192.168.1.4");
+        myServer4.port = LoginData.port;
+
+        var myServer5 = new FindServer.ServerData();
+        myServer5.ip = IPAddress.Parse("192.168.1.5");
+        myServer5.port = LoginData.port;
+
         if (!FindServer.manualServerList.Contains(myServer1))
         {
             FindServer.manualServerList.Add(myServer1);
@@ -82,6 +90,14 @@ public class ServerList : myScrollObject
         if (!FindServer.manualServerList.Contains(myServer3))
         {
             FindServer.manualServerList.Add(myServer3);
+        }
+        if (!FindServer.manualServerList.Contains(myServer4))
+        {
+            FindServer.manualServerList.Add(myServer4);
+        }
+        if (!FindServer.manualServerList.Contains(myServer5))
+        {
+            FindServer.manualServerList.Add(myServer5);
         }
     }
 
@@ -101,7 +117,7 @@ public class ServerList : myScrollObject
     /// </summary>
     public void connectLocal()
     {
-        LoginData.ip = "127.0.0.1";
+        LoginData.ip = "192.168.1.5";
         LoginData.normal_mode = false;
         SceneManager.LoadScene("MainScene");
     }

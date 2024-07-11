@@ -85,7 +85,7 @@ public class appSettings : MonoBehaviour
         updateVisuals();
         var userBoxes = GameObject.FindGameObjectsWithTag("User Box");
         // Connected to server (not local)
-        if (LoginData.ip != null && LoginData.ip != "127.0.0.1")
+        if (LoginData.ip != null && LoginData.ip != "192.168.1.4")
         {
             setVisual(UserBoxIndicator, true);
             setVisual(UserRayIndicator, true);
