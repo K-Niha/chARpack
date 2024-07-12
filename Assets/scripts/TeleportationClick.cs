@@ -1,32 +1,28 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
-using Microsoft.MixedReality.Toolkit.UI;
 
 public class TeleportationClick : MonoBehaviour
 {
-    [SerializeField] private GameObject rightHandTeleportInteractor; // Assign your Teleportation Interactor here
-    [SerializeField] private TeleportationProvider teleportationProvider; // Assign your Teleportation Provider here
-    [SerializeField] private PressableButtonHoloLens2 teleportButton; // Assign your PressableButtonHoloLens2 here
+    public GameObject rightHandTeleportInteractor; // Assign your Teleportation Interactor here
+    public TeleportationProvider teleportationProvider; // Assign your Teleportation Provider here
 
-    private void Start()
+    [SerializeField]
+    private InputActionProperty teleportAction; // Reference to the input action for teleportation
+
+    private void OnEnable()
     {
-        // Subscribe to the press event of the PressableButtonHololens2
-        if (teleportButton != null)
-        {
-            teleportButton.ButtonPressed.AddListener(OnTeleportButtonClicked);
-        }
+        teleportAction.action.performed += OnTeleportButtonPressed;
+        teleportAction.action.Enable();
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        // Make sure to unsubscribe from events to prevent memory leaks
-        if (teleportButton != null)
-        {
-            teleportButton.ButtonPressed.RemoveListener(OnTeleportButtonClicked);
-        }
+        teleportAction.action.performed -= OnTeleportButtonPressed;
+        teleportAction.action.Disable();
     }
 
-    public void OnTeleportButtonClicked()
+    private void OnTeleportButtonPressed(InputAction.CallbackContext context)
     {
         bool isActive = rightHandTeleportInteractor.activeSelf;
         rightHandTeleportInteractor.SetActive(!isActive);
